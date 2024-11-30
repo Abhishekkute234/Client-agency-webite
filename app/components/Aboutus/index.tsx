@@ -11,40 +11,58 @@ interface datatype {
 
 const Aboutdata: datatype[] = [
     {
-        heading: "About us.",
+        heading: "Web Developemnt.",
         imgSrc: "/images/aboutus/imgOne.svg",
         paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
-        link: 'Learn more'
+        link: 'Get start'
     },
     {
-        heading: "Services.",
+        heading: "App Developemnt.",
         imgSrc: "/images/aboutus/imgTwo.svg",
         paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
-        link: 'Learn more'
+        link: 'Get start'
     },
     {
-        heading: "Our Works.",
+        heading: "Data Science",
         imgSrc: "/images/aboutus/imgThree.svg",
         paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
-        link: 'Learn more'
+        link: 'Get start'
     },
     {
-        heading: "About us.",
+        heading: "Machine learning ",
         imgSrc: "/images/aboutus/imgOne.svg",
         paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
-        link: 'Learn more'
+        link: 'Get start'
     },
     {
-        heading: "Services.",
+        heading: "Cyber security ",
         imgSrc: "/images/aboutus/imgTwo.svg",
         paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
-        link: 'Learn more'
+        link: 'Get start'
     },
     {
-        heading: "Our Works.",
+        heading: "Java Develioper",
         imgSrc: "/images/aboutus/imgThree.svg",
         paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
-        link: 'Learn more'
+        link: 'Get start'
+    },
+    {
+        heading: "Rust developer  ",
+        imgSrc: "/images/aboutus/imgOne.svg",
+        paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
+        link: 'Get start'
+    },
+    {
+        heading: "Video editor ",
+        imgSrc: "/images/aboutus/imgTwo.svg",
+        paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
+        link: 'Get start'
+    },
+    {
+        heading: "Graphic designer ",
+        imgSrc: "/images/aboutus/imgThree.svg",
+        paragraph: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem',
+        link: 'Get start'
     },
 ]
 
@@ -54,8 +72,8 @@ const Aboutus = () => {
         <div id="aboutus-section">
             <div className='mx-auto max-w-7xl px-4 py-24 my-32 lg:px-10 bg-lightgrey rounded-3xl relative'>
                 <Image src="/images/aboutus/dots.svg" width={100} height={100} alt="dots-image" className="absolute bottom-1 -left-20" />
-                <h3 className='text-center text-blue text-lg tracking-widest'>ABOUT US</h3>
-                <h4 className='text-center text-4xl lg:text-65xl font-bold'>Know more about us.</h4>
+                <h3 className='text-center text-blue text-lg tracking-widest'>Built your skill with real world projects</h3>
+                <h4 className='text-center text-4xl lg:text-65xl font-bold'>Internship oppurnities.</h4>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-16 gap-x-16 lg:gap-x-32'>
                     {Aboutdata.map((item, i) => (
                         <div key={i} className='hover:bg-navyblue bg-white rounded-3xl mt-16 pt-10 pl-8 pb-10 pr-6 shadow-xl group'>
