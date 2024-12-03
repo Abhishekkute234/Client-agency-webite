@@ -6,6 +6,11 @@ import { Bars3Icon } from '@heroicons/react/24/outline';
 import Drawer from "./Drawer";
 import Drawerdata from "./Drawerdata";
 import Contactusform from './Contactus';
+import {
+    TextRevealCard,
+    TextRevealCardDescription,
+    TextRevealCardTitle,
+  } from "../ui/text-reveal-card";
 
 interface NavigationItem {
     name: string;

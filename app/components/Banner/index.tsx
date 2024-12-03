@@ -1,37 +1,23 @@
 import Image from "next/image";
+import React from "react";
+import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
 
 const Banner = () => {
-    return (
-        <div className='mx-auto max-w-7xl my-10 sm:py-10 px-6 lg:px-8'>
-            <div className='grid grid-cols-1 lg:grid-cols-2 my-16'>
-
-                {/* COLUMN-1 */}
-
-                <div className="mx-auto sm:mx-0">
-                    <div className='py-3 text-center lg:text-start'>
-                        <button className='text-blue bg-lightblue hover:shadow-xl text-sm md:text-lg font-bold px-6 py-1 rounded-3xl tracking-wider hover:text-white hover:bg-black'>DESIGN AGENCY</button>
-                    </div>
-                    <div className="py-3 text-center lg:text-start">
-                        <h1 className='text-6xl lg:text-80xl font-bold text-darkpurple'>
-                            Dedicated to <br /> bring your <br /> ideas to life.
-                        </h1>
-                    </div>
-                    <div className='my-7 text-center lg:text-start'>
-                        <button className='text-sm md:text-xl font-semibold hover:shadow-xl bg-blue text-white py-3 px-6 md:py-5 md:px-14 rounded-full hover:bg-hoblue'>
-                            Get Started
-                        </button>
-                    </div>
-                </div>
-
-                {/* COLUMN-2 */}
-
-                <div className='lg:-m-24 lg:pt-20 hidden lg:block'>
-                    <Image src="/images/banner/banner.svg" alt="hero-image" width={800} height={642} />
-                </div>
-
-            </div>
+  return (
+    <BackgroundBeamsWithCollision className="bg-black">
+      <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center text-black dark:text-white font-sans tracking-tight">
+        What&apos;s cooler than Beams?{" "}
+        <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]">
+          <div className="absolute left-0 top-[1px] bg-clip-text bg-no-repeat text-transparent bg-gradient-to-r py-4 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0_rgba(0,0,0,0.1)]">
+            <span className="">Exploding beams.</span>
+          </div>
+          <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
+            <span className="">Exploding beams.</span>
+          </div>
         </div>
-    )
-}
+      </h2>
+    </BackgroundBeamsWithCollision>
+  );
+};
 
 export default Banner;
