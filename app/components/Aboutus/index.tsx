@@ -78,8 +78,8 @@ const Aboutdata: datatype[] = [
 
 const Aboutus = () => {
   return (
-    <div id="aboutus-section">
-      <div className="mx-auto max-w-7xl px-4 py-24 my-32 lg:px-10 bg-lightgrey rounded-3xl relative">
+    <div id="aboutus-section bg-navyblue">
+      <div className="mx-auto max-w-7xl px-4 py-24 my-32 lg:px-10  rounded-3xl relative">
         <Image
           src="/images/aboutus/dots.svg"
           width={100}
