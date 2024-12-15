@@ -1,46 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const svgToDataUri = require("mini-svg-data-uri");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
-
-module.exports = {
-  content: ["./src/**/*.{ts,tsx}"],
-  darkMode: "class",
-  theme: {
-    extend: {
-      // your config here
-    },
-  },
-  plugins: [
-    addVariablesForColors,
-    function ({ matchUtilities, theme }: any) {
-      matchUtilities(
-        {
-          "bg-dot-thick": (value: any) => ({
-            backgroundImage: `url("${svgToDataUri(
-              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="2.5"></circle></svg>`
-            )}")`,
-          }),
-        },
-        { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
-      );
-    },
-  ],
-};
-
-// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
-function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
-
-  addBase({
-    ":root": newVars,
-  });
-}
-
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -51,57 +9,86 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    screens: {
-      sm: "640px",
-      md: "768px",
-      lg: "1150px", // change the value of lg to 1150px
-      xl: "1280px",
-      "2xl": "1536px",
-    },
     colors: {
-      transparent: "transparent",
-      current: "currentColor",
-      white: "#ffffff",
-      black: "#000000",
-      blue: "#0066FF",
-      lightblue: "#d9e8ff",
-      darkpurple: "#241A24",
-      lightgrey: "#F4F5F6",
-      navyblue: "#00224A",
-      darkblue: "#1E013A",
-      offwhite: "rgba(255, 255, 255, 0.75)",
-      lightblack: "rgba(0, 0, 0, 0.55)",
-      bluish: "rgba(14, 13, 13, 0.75)",
-      testColor: "rgba(54, 54, 54, 0.75)",
-      grey: "#909090",
-      bgblue: "#02398A",
-      darkgrey: "#747474",
-      faqblue: "#0861FF",
-      gold: "#FAAF38",
-      hoblue: "#0000FF",
-      btnblue: "#267dff",
-      bggrey: "#DDDDDD",
-      footer: "rgba(226, 223, 223, 0.75)",
-      linegrey: "#C4C4C4",
+      transparent: 'transparent',
+      current: 'currentColor',
+      'white': '#ffffff',
+      'black': '#000000',
+      "purple": '#611F69',
+      'lightgrey': '#8C8C8C',
+      'green': '#6B9F36',
+      'lightpink': '#FCF6EF',
+      'orange': '#F9CD92',
+      'grey500': '#ECECEC',
+      'bgpink': "#FCF5EF",
+      'bgpurple': '#451F49',
+      'emailbg': '#6a4c6d',
+      'offwhite': ' #FDFDFD',
+      'offblack' :'#333333',
+      'red' : '#FF605C'
+    },
+    fontFamily: {
+      'inter': ['Inter', "sans-serif"]
     },
     fontSize: {
-      xs: ["0.75rem", { lineHeight: "1rem" }],
-      sm: ["0.875rem", { lineHeight: "1.25rem" }],
-      base: ["1rem", { lineHeight: "1.5rem" }],
-      lg: ["1.125rem", { lineHeight: "1.75rem" }],
-      xl: ["1.25rem", { lineHeight: "1.75rem" }],
-      "2xl": ["1.5rem", { lineHeight: "2rem" }],
-      "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
-      "4xl": ["2.25rem", { lineHeight: "2.5rem" }],
-      "5xl": ["3rem", { lineHeight: "1" }],
-      "6xl": ["3.75rem", { lineHeight: "1" }],
-      "7xl": ["4.5rem", { lineHeight: "1" }],
-      "8xl": ["6rem", { lineHeight: "1" }],
-      "9xl": ["8rem", { lineHeight: "1" }],
-      "65xl": ["65px", { lineHeight: "1" }],
-      "80xl": ["80px", { lineHeight: "6rem" }],
+      xs: ['0.75rem', { lineHeight: '1rem' }],
+      sm: ['0.875rem', { lineHeight: '1.25rem' }],
+      base: ['1rem', { lineHeight: '1.5rem' }],
+      lg: ['1.125rem', { lineHeight: '1.75rem' }],
+      xl: ['1.25rem', { lineHeight: '1.75rem' }],
+      '2xl': ['1.5rem', { lineHeight: '2rem' }],
+      '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+      '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+      '5xl': ['3rem', { lineHeight: '1' }],
+      '6xl': ['3.75rem', { lineHeight: '1' }],
+      '7xl': ['4.5rem', { lineHeight: '1' }],
+      '8xl': ['6rem', { lineHeight: '1' }],
+      '9xl': ['8rem', { lineHeight: '1' }],
+      '15px': ['15px', { lineHeight: '1' }],
+      '75px': ['75px', { lineHeight: '1' }],
+
     },
-    extend: {},
+    width: ({ theme }) => ({
+      auto: 'auto',
+      ...theme('spacing'),
+      '1/2': '50%',
+      '1/3': '33.333333%',
+      '2/3': '66.666667%',
+      '1/4': '25%',
+      '2/4': '50%',
+      '3/4': '75%',
+      '1/5': '20%',
+      '2/5': '40%',
+      '3/5': '60%',
+      '4/5': '80%',
+      '1/6': '16.666667%',
+      '2/6': '33.333333%',
+      '3/6': '50%',
+      '4/6': '66.666667%',
+      '5/6': '83.333333%',
+      '1/12': '8.333333%',
+      '2/12': '16.666667%',
+      '3/12': '25%',
+      '4/12': '33.333333%',
+      '5/12': '41.666667%',
+      '6/12': '50%',
+      '7/12': '58.333333%',
+      '8/12': '66.666667%',
+      '9/12': '75%',
+      '10/12': '83.333333%',
+      '11/12': '91.666667%',
+      '340px' : '340px',
+      full: '100%',
+      screen: '100vw',
+      min: 'min-content',
+      max: 'max-content',
+      fit: 'fit-content',
+    }),
+    extend: {
+      lineHeight: {
+        '4px': '85px',
+      },
+    },
   },
   plugins: [],
-};
+}
