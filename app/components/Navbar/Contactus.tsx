@@ -1,51 +1,73 @@
+"use client";
+
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-const Contactusform = () => {
-  let [isOpen, setIsOpen] = useState(false);
+interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
-  const [inputValues, setInputValues] = useState({
-    input1: "",
-    input2: "",
-    input3: "",
+const Contactusform = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [formData, setFormData] = useState<ContactFormData>({
+    name: "",
+    email: "",
+    message: "",
   });
 
-  const handleChange = (e: { target: { name: string; value: string } }) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setInputValues((prevState) => ({ ...prevState, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleClick = () => {
-    alert(
-      `Name: ${inputValues.input1}, Email-address: ${inputValues.input2}, Message: ${inputValues.input3}`
-    );
-    setIsOpen(false);
-  };
-
-  // FORM SUBMIT
-  const handleSubmit = (event: { preventDefault: () => void }) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // handle form submission
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      setFormData({ name: "", email: "", message: "" });
+      setIsOpen(false);
+      alert("Message sent successfully!");
+    } catch (error) {
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const isDisabled = Object.values(inputValues).some((value) => value === "");
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  const isDisabled =
+    Object.values(formData).some((value) => !value) || isSubmitting;
 
   return (
     <>
-      <div className=" inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto md:ml-6 sm:pr-0">
+      <div className="inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto md:ml-6 sm:pr-0">
         <div className="md:hidden">
           <button
             type="button"
             className="text-15px font-medium"
-            onClick={openModal}
+            onClick={() => setIsOpen(true)}
           >
             Contact Us
           </button>
@@ -54,7 +76,7 @@ const Contactusform = () => {
           <button
             type="button"
             className="text-15px font-medium space-links"
-            onClick={openModal}
+            onClick={() => setIsOpen(true)}
           >
             Contact Us
           </button>
@@ -62,7 +84,11 @@ const Contactusform = () => {
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={closeModal}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={() => setIsOpen(false)}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -96,81 +122,69 @@ const Contactusform = () => {
                     <p className="mb-8 lg:mb-16 mt-8 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
                       Contact us now? Want to send us a feedback?
                     </p>
-                    <form
-                      action="#"
-                      className="space-y-8"
-                      onSubmit={handleSubmit}
-                    >
+                    <form className="space-y-8" onSubmit={handleSubmit}>
                       <div>
                         <label
-                          htmlFor="text"
-                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          htmlFor="name"
+                          className="block mb-2 text-sm font-medium text-gray-900"
                         >
                           Your Name
                         </label>
                         <input
-                          id="text"
-                          name="input1"
-                          value={inputValues.input1}
+                          id="name"
+                          name="name"
+                          value={formData.name}
                           onChange={handleChange}
                           type="text"
-                          autoComplete="current-password"
-                          required
-                          className="relative block w-full appearance-none  rounded-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="relative block w-full appearance-none rounded-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                           placeholder="Name..."
+                          required
                         />
                       </div>
                       <div>
                         <label
                           htmlFor="email"
-                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="block mb-2 text-sm font-medium text-gray-900"
                         >
-                          Your email
+                          Your Email
                         </label>
                         <input
                           id="email"
-                          name="input2"
-                          value={inputValues.input2}
+                          name="email"
+                          value={formData.email}
                           onChange={handleChange}
                           type="email"
-                          autoComplete="current-password"
-                          required
-                          className="relative block w-full appearance-none  rounded-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="relative block w-full appearance-none rounded-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                           placeholder="xyz@email.com"
+                          required
                         />
                       </div>
-                      <div className="sm:col-span-2">
+                      <div>
                         <label
                           htmlFor="message"
-                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                          className="block mb-2 text-sm font-medium text-gray-900"
                         >
-                          Your message
+                          Your Message
                         </label>
                         <textarea
                           id="message"
-                          name="input3"
-                          value={inputValues.input3}
+                          name="message"
+                          value={formData.message}
                           onChange={handleChange}
-                          className="relative block w-full appearance-none  rounded-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                          className="relative block w-full appearance-none rounded-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                           placeholder="Leave a comment..."
-                        ></textarea>
+                          required
+                        />
                       </div>
                       <button
                         type="submit"
-                        onClick={handleClick}
                         disabled={isDisabled}
-                        className="py-3 px-5 text-sm disabled:opacity-50 font-medium w-full text-center text-white rounded-lg bg-purple  hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        className="py-3 px-5 text-sm disabled:opacity-50 font-medium w-full text-center text-white rounded-lg bg-purple hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
                       >
-                        Send message
+                        {isSubmitting ? "Sending..." : "Send message"}
                       </button>
                     </form>
                   </div>
-
-                  {/* <div className='flex justify-end'>
-                                        <button type="button"
-                                            onClick={closeModal}
-                                            className="py-3 px-5 mt-2 text-sm font-medium w-50 text-center text-white rounded-lg bg-red hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Close</button>
-                                    </div> */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
