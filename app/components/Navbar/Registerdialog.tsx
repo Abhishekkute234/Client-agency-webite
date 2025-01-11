@@ -2,6 +2,16 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { Client, Account } from "appwrite";
+
+// Initialize Appwrite Client
+const client = new Client();
+client
+  .setEndpoint("https://cloud.appwrite.io/v1") // Replace with your Appwrite endpoint
+  .setProject("6781e9f5001197beb2be"); // Replace with your Appwrite project ID
+
+const account = new Account(client);
+const redirectUrl = "https://your-app.com/oauth/callback";
 
 const Register = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -14,15 +24,9 @@ const Register = () => {
     setIsOpen(true);
   };
 
-  const handleGoogleAuth = () => {
-    console.log("Google Auth Clicked");
-    // Add your Google authentication logic here
-  };
+  const handleGoogleAuth = async () => {};
 
-  const handleGitHubAuth = () => {
-    console.log("GitHub Auth Clicked");
-    // Add your GitHub authentication logic here
-  };
+  const handleGitHubAuth = async () => {};
 
   return (
     <>
