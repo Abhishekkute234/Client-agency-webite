@@ -1,3 +1,4 @@
+"use client";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
@@ -13,9 +14,19 @@ const Register = () => {
     setIsOpen(true);
   };
 
+  const handleGoogleAuth = () => {
+    console.log("Google Auth Clicked");
+    // Add your Google authentication logic here
+  };
+
+  const handleGitHubAuth = () => {
+    console.log("GitHub Auth Clicked");
+    // Add your GitHub authentication logic here
+  };
+
   return (
     <>
-      <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto  sm:pr-0">
+      <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:pr-0">
         <div className="hidden md:block">
           <button
             className="bg-purple hover:bg-purple hover:text-white text-white text-15px font-medium ml-8 py-4 px-5 rounded"
@@ -65,11 +76,6 @@ const Register = () => {
                         </h2>
                       </div>
                       <form className="mt-8 space-y-6" action="#" method="POST">
-                        <input
-                          type="hidden"
-                          name="remember"
-                          defaultValue="true"
-                        />
                         <div className="-space-y-px rounded-md shadow-sm">
                           <div>
                             <label htmlFor="email-address" className="sr-only">
@@ -133,13 +139,38 @@ const Register = () => {
                           </button>
                         </div>
                       </form>
+
+                      <div className="mt-6">
+                        <button
+                          onClick={handleGoogleAuth}
+                          className="w-full flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          <img
+                            className="h-5 w-5 mr-2"
+                            src="/google.svg"
+                            alt="Google Icon"
+                          />
+                          Continue with Google
+                        </button>
+                        <button
+                          onClick={handleGitHubAuth}
+                          className="mt-4 w-full flex justify-center rounded-md border border-gray-300 bg-black py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          <img
+                            className="h-5 w-5 mr-2"
+                            src="/github.png"
+                            alt="GitHub Icon"
+                          />
+                          Continue with GitHub
+                        </button>
+                      </div>
                     </div>
                   </div>
 
                   <div className="mt-4 flex justify-end">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 "
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900"
                       onClick={closeModal}
                     >
                       Got it, thanks!

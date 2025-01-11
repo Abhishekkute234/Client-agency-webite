@@ -1,6 +1,9 @@
+"use client";
+
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { Client } from "appwrite";
 
 const Signin = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -143,6 +146,31 @@ const Signin = () => {
                           </button>
                         </div>
                       </form>
+
+                      <div className="mt-6">
+                        <button
+                          // onClick={handleGoogleAuth}
+                          className="w-full flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          <img
+                            className="h-5 w-5 mr-2"
+                            src="/google.svg"
+                            alt="Google Icon"
+                          />
+                          Continue with Google
+                        </button>
+                        <button
+                          // onClick={handleGitHubAuth}
+                          className="mt-4 w-full flex justify-center rounded-md border border-gray-300 bg-black py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          <img
+                            className="h-5 w-5 mr-2"
+                            src="/github.png"
+                            alt="GitHub Icon"
+                          />
+                          Continue with GitHub
+                        </button>
+                      </div>
                     </div>
                   </div>
 

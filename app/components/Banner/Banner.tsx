@@ -5,7 +5,16 @@ import Dropdowntwo from "./Dropdowntwo";
 const Banner = () => {
   return (
     <main className="banner-image">
-      <div className="relative px-6 lg:px-8">
+      <div
+        className="relative px-6 lg:px-8 "
+        style={{
+          backgroundImage: "url('../public/assets/banner/my_image.png')",
+          backgroundSize: "cover", // Ensures the image covers the entire div
+          backgroundPosition: "center", // Centers the image
+          backgroundRepeat: "no-repeat", // Prevents tiling
+          height: "100vh", // Adjust as needed
+        }}
+      >
         <div className="mx-auto max-w-5xl pt-16 sm:pt-40 sm:pb-24">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-75px md:4px">
