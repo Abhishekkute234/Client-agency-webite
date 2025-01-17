@@ -1,48 +1,96 @@
 "use client";
+
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { Client, Account } from "appwrite";
+import React, { Fragment, useState } from "react";
+import { account } from "@/app/lib/appwrite";
+import { OAuthProvider } from "appwrite";
 
-// Initialize Appwrite Client
-const client = new Client();
-client
-  .setEndpoint("https://cloud.appwrite.io/v1") // Replace with your Appwrite endpoint
-  .setProject("6781e9f5001197beb2be"); // Replace with your Appwrite project ID
+const AuthModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-const account = new Account(client);
-const redirectUrl = "https://your-app.com/oauth/callback";
-
-const Register = () => {
-  let [isOpen, setIsOpen] = useState(false);
-
-  const closeModal = () => {
-    setIsOpen(false);
+  const handleGoogleAuth = async () => {
+    try {
+      setLoading(true);
+      await account.createOAuth2Session(
+        "google" as OAuthProvider,
+        "https://client-agency-webite-21qx.vercel.app/",
+        "https://client-agency-webite-21qx.vercel.app/failure"
+      );
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+    } catch (error) {
+      console.error("OAuth2 session creation failed:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const openModal = () => {
-    setIsOpen(true);
+  const handleGitHubAuth = async () => {
+    try {
+      setLoading(true);
+      await account.createOAuth2Session(
+        "github" as OAuthProvider,
+        "https://client-agency-webite-21qx.vercel.app/",
+        "https://client-agency-webite-21qx.vercel.app/failure"
+      );
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+    } catch (error) {
+      console.error("GitHub auth error:", error);
+      alert("Authentication failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleAuth = async () => {};
-
-  const handleGitHubAuth = async () => {};
+  const handleLinkedInAuth = async () => {
+    try {
+      setLoading(true);
+      await account.createOAuth2Session(
+        "linked" as OAuthProvider,
+        "https://client-agency-webite-21qx.vercel.app/",
+        "https://client-agency-webite-21qx.vercel.app/failure"
+      );
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+    } catch (error) {
+      console.error("GitHub auth error:", error);
+      alert("Authentication failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-      <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:pr-0">
-        <div className="hidden md:block">
-          <button
-            className="bg-purple hover:bg-purple hover:text-white text-white text-15px font-medium ml-8 py-4 px-5 rounded"
-            onClick={openModal}
-          >
-            Register
-          </button>
-        </div>
-      </div>
+      {/* Trigger Buttons */}
+      <button
+        type="button"
+        className="text-15px font-bold sm:hidden"
+        onClick={() => setIsOpen(true)}
+      >
+        Sign in
+      </button>
+      <button
+        type="button"
+        className="hidden sm:inline-block text-15px font-bold"
+        onClick={() => setIsOpen(true)}
+      >
+        Sign in
+      </button>
 
+      {/* Modal */}
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={() => setIsOpen(false)}
+          aria-labelledby="auth-modal-title"
+          aria-describedby="auth-modal-description"
+        >
+          {/* Overlay */}
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -52,137 +100,131 @@ const Register = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black bg-opacity-50" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                    <div className="w-full max-w-md space-y-8">
-                      <div>
-                        <img
-                          className="mx-auto h-12 w-auto"
-                          src="/assets/logo/Logo.svg"
-                          alt="Your Company"
-                        />
-                        <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                          Register your account
-                        </h2>
-                      </div>
-                      <form className="mt-8 space-y-6" action="#" method="POST">
-                        <div className="-space-y-px rounded-md shadow-sm">
-                          <div>
-                            <label htmlFor="email-address" className="sr-only">
-                              Email address
-                            </label>
-                            <input
-                              id="email-address"
-                              name="email"
-                              type="email"
-                              autoComplete="email"
-                              required
-                              className="relative block w-full appearance-none rounded-none rounded-t-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                              placeholder="Email address"
-                            />
-                          </div>
-                          <div>
-                            <label htmlFor="password" className="sr-only">
-                              Password
-                            </label>
-                            <input
-                              id="password"
-                              name="password"
-                              type="password"
-                              autoComplete="current-password"
-                              required
-                              className="relative block w-full appearance-none rounded-none rounded-b-md border border-grey500 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                              placeholder="Password"
-                            />
-                          </div>
-                        </div>
+          {/* Modal Content */}
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl md:p-8">
+                <Dialog.Title
+                  id="auth-modal-title"
+                  className="text-lg font-bold text-center text-gray-700"
+                >
+                  Sign In
+                </Dialog.Title>
+                <Dialog.Description
+                  id="auth-modal-description"
+                  className="mt-2 text-center text-sm text-gray-500"
+                >
+                  Access your account using one of the methods below.
+                </Dialog.Description>
 
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <input
-                              id="remember-me"
-                              name="remember-me"
-                              type="checkbox"
-                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                            />
-                            <label
-                              htmlFor="remember-me"
-                              className="ml-2 block text-sm text-gray-900"
-                            >
-                              Remember me
-                            </label>
-                          </div>
-                        </div>
-
-                        <div>
-                          <button
-                            type="submit"
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-purple py-2 px-4 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          >
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                              <LockClosedIcon
-                                className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                                aria-hidden="true"
-                              />
-                            </span>
-                            Register Now
-                          </button>
-                        </div>
-                      </form>
-
-                      <div className="mt-6">
-                        <button
-                          onClick={handleGoogleAuth}
-                          className="w-full flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                          <img
-                            className="h-5 w-5 mr-2"
-                            src="/google.svg"
-                            alt="Google Icon"
-                          />
-                          Continue with Google
-                        </button>
-                        <button
-                          onClick={handleGitHubAuth}
-                          className="mt-4 w-full flex justify-center rounded-md border border-gray-300 bg-black py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                          <img
-                            className="h-5 w-5 mr-2"
-                            src="/github.png"
-                            alt="GitHub Icon"
-                          />
-                          Continue with GitHub
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900"
-                      onClick={closeModal}
+                {/* Auth Buttons */}
+                <div className="flex flex-col gap-4 mt-6">
+                  <button
+                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-black px-5 py-3 text-sm font-bold text-white hover:bg-gray-800 disabled:opacity-50"
+                    onClick={handleGoogleAuth}
+                    disabled={loading}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 48 48"
+                      className="h-5 w-5"
                     >
-                      Got it, thanks!
-                    </button>
+                      <path
+                        fill="#EA4335"
+                        d="M24 9.5c3.1 0 5.9 1.2 8.1 3.3l6.1-6.1C34.1 3.5 29.3 1.5 24 1.5 14.8 1.5 7.2 7.2 4.3 15.1l7.7 6C13.3 15.1 18.2 9.5 24 9.5z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M46.4 24.5c0-1.7-.2-3.4-.5-5h-22v9h12.7c-.6 3.2-2.5 5.9-5.2 7.8l7.8 6C43.1 38.1 46.4 31.7 46.4 24.5z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M11.9 28.9c-1.1-3.2-1.1-6.8 0-10l-7.7-6c-2.7 5.3-2.7 11.7 0 17.1l7.7-6z"
+                      />
+                      <path
+                        fill="#4285F4"
+                        d="M24 46.5c5.4 0 10.4-1.8 14.3-4.9l-7.8-6c-2.1 1.4-4.7 2.2-7.5 2.2-5.8 0-10.7-3.9-12.4-9.1l-7.7 6C7.2 40.8 14.8 46.5 24 46.5z"
+                      />
+                      <path fill="none" d="M0 0h48v48H0z" />
+                    </svg>
+                    {loading ? "Loading..." : "Google Sign-In"}
+                  </button>
+                  <button
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border border-black bg-white px-5 py-3 text-sm font-bold text-black hover:bg-gray-200 disabled:opacity-50"
+                    onClick={handleGitHubAuth}
+                    disabled={loading}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.54 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                      />
+                    </svg>
+
+                    {loading ? "Loading..." : "GitHub Sign-In"}
+                  </button>
+
+                  <button
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border border-black bg-white px-5 py-3 text-sm font-bold text-black hover:bg-gray-200 disabled:opacity-50"
+                    onClick={handleLinkedInAuth}
+                    disabled={loading}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      x="0px"
+                      y="0px"
+                      width="30"
+                      height="30"
+                      viewBox="0 0 48 48"
+                    >
+                      <path
+                        fill="#0288D1"
+                        d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5V37z"
+                      ></path>
+                      <path
+                        fill="#FFF"
+                        d="M12 19H17V36H12zM14.485 17h-.028C12.965 17 12 15.888 12 14.499 12 13.08 12.995 12 14.514 12c1.521 0 2.458 1.08 2.486 2.499C17 15.887 16.035 17 14.485 17zM36 36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698-1.501 0-2.313 1.012-2.707 1.99C24.957 25.543 25 26.511 25 27v9h-5V19h5v2.616C25.721 20.5 26.85 19 29.738 19c3.578 0 6.261 2.25 6.261 7.274L36 36 36 36z"
+                      ></path>
+                    </svg>
+
+                    {loading ? "Loading..." : "LinkedIn Sign-In"}
+                  </button>
+                </div>
+
+                {/* Success Message */}
+                {showSuccessMessage && (
+                  <div className="mt-4 text-center text-sm text-green-600">
+                    ✅ Login successful!
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+                )}
+
+                {/* Close Button */}
+                <div className="mt-4 text-center">
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                    className="text-sm font-medium text-gray-500 hover:text-gray-700"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
           </div>
         </Dialog>
       </Transition>
@@ -190,4 +232,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default AuthModal;

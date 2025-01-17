@@ -6,7 +6,6 @@ import Link from "next/link";
 import React from "react";
 import Drawer from "./Drawer";
 import Drawerdata from "./Drawerdata";
-import Signdialog from "./Signdialog";
 import Registerdialog from "./Registerdialog";
 import Contactus from "./Contactus";
 
@@ -75,8 +74,6 @@ const Navbar = () => {
             </div>
 
             {/* SIGNIN DIALOG */}
-
-            <Signdialog />
 
             {/* REGISTER DIALOG */}
 
