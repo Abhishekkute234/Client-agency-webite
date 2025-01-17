@@ -69,15 +69,10 @@ const Navbar = () => {
                     </Link>
                   ))}
                   <Contactus />
+                  <Registerdialog />
                 </div>
               </div>
             </div>
-
-            {/* SIGNIN DIALOG */}
-
-            {/* REGISTER DIALOG */}
-
-            <Registerdialog />
 
             {/* DRAWER FOR MOBILE VIEW */}
 
